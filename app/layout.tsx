@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import React from "react";
-
-const inter = Inter({ subsets: ["latin"] });
+import { feixenMono, inter, jetBrains } from "@/app/fonts";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,7 +15,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body
+        className={`${inter.variable} ${jetBrains.variable} ${feixenMono.variable}`}
+      >
+        {children}
+      </body>
     </html>
   );
 }
