@@ -3,6 +3,7 @@ import './globals.css';
 import React from 'react';
 import { feixenMono, inter, jetBrains, spaceGrotesk } from '@/app/fonts';
 import { ClerkProvider } from '@clerk/nextjs';
+import { ThemeProvider } from '@/context/ThemeProvider';
 
 export const metadata: Metadata = {
   title: 'DevFlow',
@@ -19,21 +20,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider
-      appearance={{
-        elements: {
-          formButtonPrimary: 'primary-gradient',
-          footerActionLink: 'primary-text-gradient hover:text-primary-500',
-        },
-      }}
-    >
-      <html lang='en'>
-        <body
-          className={`${inter.variable} ${jetBrains.variable} ${feixenMono.variable} ${spaceGrotesk}`}
+    <html lang='en'>
+      <body
+        className={`${inter.variable} ${jetBrains.variable} ${feixenMono.variable} ${spaceGrotesk}`}
+      >
+        <ClerkProvider
+          appearance={{
+            elements: {
+              formButtonPrimary: 'primary-gradient',
+              footerActionLink: 'primary-text-gradient hover:text-primary-500',
+            },
+          }}
         >
-          {children}
-        </body>
-      </html>
-    </ClerkProvider>
+          <ThemeProvider>{children}</ThemeProvider>
+        </ClerkProvider>
+      </body>
+    </html>
   );
 }
