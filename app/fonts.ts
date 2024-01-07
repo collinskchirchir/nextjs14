@@ -17,5 +17,5 @@ export const jetBrains = localFonts({
 });
 export const feixenMono = localFonts({
   src: './fonts/StudioFeixenMono.ttf',
-  variable: '--font-feixen-mono',
+  variable: '--font-feixenMono',
 });
