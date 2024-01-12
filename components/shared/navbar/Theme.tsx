@@ -42,7 +42,8 @@ export default function Theme() {
               className='flex items-center gap-4 px-2.5 py-2 dark:focus:bg-dark-400'
               onClick={() => {
                 setMode(item.value);
-                if (item.value === 'system') {
+                // take system preference
+                if (item.value !== 'system') {
                   localStorage.theme = item.value;
                 } else {
                   localStorage.removeItem('theme');
