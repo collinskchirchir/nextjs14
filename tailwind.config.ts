@@ -40,6 +40,7 @@ module.exports = {
         'accent-blue': '#1DA1F2',
       },
       fontFamily: {
+        sans: ['var(--font-inter)'],
         inter: ['var(--font-inter)'],
         spaceGrotesk: ['var(--font-spaceGrotesk)'],
         jetbrains: ['var(--font-jetbrains)'],

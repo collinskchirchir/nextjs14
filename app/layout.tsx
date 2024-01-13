@@ -27,7 +27,8 @@ export default function RootLayout({
           inter.variable,
           jetBrains.variable,
           feixenMono.variable,
-          spaceGrotesk.variable
+          spaceGrotesk.variable,
+          'font-sans'
         )}
       >
         <ClerkProvider
