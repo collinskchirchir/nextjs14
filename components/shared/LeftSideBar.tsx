@@ -15,7 +15,7 @@ export default function LeftSideBar() {
           const isActive =
             (pathname.includes(item.route) && item.route.length > 1) ||
             pathname === item.route;
-          // TODO: add some more specific routing for 'PROFILE' page
+          // TODO: - add some more specific routing for 'PROFILE' page
           return (
             <Link
               href={item.route}
