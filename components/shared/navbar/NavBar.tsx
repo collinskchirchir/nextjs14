@@ -4,6 +4,7 @@ import { SignedIn, UserButton } from '@clerk/nextjs';
 import Theme from '@/components/shared/navbar/Theme';
 import MobileNav from '@/components/shared/navbar/MobileNav';
 import { SheetClose } from '@/components/ui/sheet';
+import GlobalSearch from '@/components/shared/search/GlobalSearch';
 
 export default function NavBar() {
   return (
@@ -19,7 +20,7 @@ export default function NavBar() {
           Dev<span className='text-primary-500'>Exchange</span>
         </p>
       </Link>
-      Global Search
+      <GlobalSearch />
       <div className='flex-between gap-5'>
         <Theme />
         <SignedIn>
