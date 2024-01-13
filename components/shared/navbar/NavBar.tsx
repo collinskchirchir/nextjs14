@@ -2,6 +2,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { SignedIn, UserButton } from '@clerk/nextjs';
 import Theme from '@/components/shared/navbar/Theme';
+import MobileNav from '@/components/shared/navbar/MobileNav';
+import { SheetClose } from '@/components/ui/sheet';
 
 export default function NavBar() {
   return (
@@ -13,7 +15,7 @@ export default function NavBar() {
           width={23}
           height={23}
         />
-        <p className='h2-bold font-spaceGrotesk text-dark-100 max-sm:hidden dark:text-light-900'>
+        <p className='h2-bold text-dark100_light900 font-spaceGrotesk max-sm:hidden dark:text-light-900'>
           Dev<span className='text-primary-500'>Exchange</span>
         </p>
       </Link>
@@ -33,7 +35,7 @@ export default function NavBar() {
             }}
           />
         </SignedIn>
-        MobileNav
+        <MobileNav />
       </div>
     </nav>
   );
