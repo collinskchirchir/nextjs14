@@ -16,6 +16,7 @@ export default function Theme() {
   return (
     <Menubar className='relative border-none bg-transparent shadow-none'>
       <MenubarMenu>
+        {/* FIXME: - remove transparent bg on lightmode */}
         <MenubarTrigger className='focus:bg-light-900 data-[state=open]:bg-light-900 dark:focus:bg-dark-200 dark:data-[state=open]:bg-dark-200'>
           {mode === 'light' ? (
             <Image
