@@ -1,5 +1,5 @@
 'use client';
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -19,8 +19,13 @@ import { QuestionsSchema } from '@/lib/validations';
 import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
 
+// set type of button 'create' | 'edit'
+const type: any = 'create';
+
 export default function Question() {
   const editorRef = useRef(null);
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const log = () => {
     if (editorRef.current) {
       console.log(editorRef.current.getContent());
@@ -40,6 +45,18 @@ export default function Question() {
   function onSubmit(values: z.infer<typeof QuestionsSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
+    setIsSubmitting(true);
+    try {
+      // CREATE
+      // make an async call to your API -> create a question
+      // contain all form data
+      // navigate to homepage
+      // EDIT
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsSubmitting(false);
+    }
     console.log(values);
   }
 
@@ -203,7 +220,17 @@ export default function Question() {
             </FormItem>
           )}
         />
-        <Button type='submit'>Submit</Button>
+        <Button
+          type='submit'
+          className='primary-gradient w-fit !text-light-900'
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? (
+            <>{type === 'edit' ? 'Editing...' : 'Posting...'}</>
+          ) : (
+            <>{type === 'edit' ? 'Edit Question' : 'Ask a Question'}</>
+          )}
+        </Button>
       </form>
     </Form>
   );
