@@ -18,6 +18,7 @@ import { useForm } from 'react-hook-form';
 import { QuestionsSchema } from '@/lib/validations';
 import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
+import { createQuestion } from '@/lib/actions/question.action';
 
 // set type of button 'create' | 'edit'
 const type: any = 'create';
@@ -42,7 +43,7 @@ export default function Question() {
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof QuestionsSchema>) {
+  async function onSubmit(values: z.infer<typeof QuestionsSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     setIsSubmitting(true);
@@ -50,6 +51,7 @@ export default function Question() {
       // CREATE
       // make an async call to your API -> create a question
       // contain all form data
+      await createQuestion({});
       // navigate to homepage
       // EDIT
     } catch (error) {
@@ -137,6 +139,8 @@ export default function Question() {
                     // @ts-ignore
                     (editorRef.current = editor)
                   }
+                  onBlur={field.onBlur}
+                  onEditorChange={(content) => field.onChange(content)}
                   initialValue=''
                   init={{
                     height: 350,
