@@ -28,7 +28,7 @@ const UserSchema = new Schema({
   location: { type: String },
   portfolioWebsite: { type: String, require: true },
   reputation: { type: Number, default: 0 },
-  saved: [{ types: Schema.Types.ObjectId, ref: 'Question' }],
+  saved: [{ type: Schema.Types.ObjectId, ref: 'Question' }],
   joinedAt: { type: Date, default: Date.now },
 });
 // create a model
