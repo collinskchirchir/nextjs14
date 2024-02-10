@@ -8,6 +8,7 @@ export async function createQuestion(params: any) {
   try {
     // connect to DB
     connectToDatabase();
+    // 'path' is going to be the URL to the page we're going to reload
     const { title, content, tags, author, path } = params;
     // create the question
     const question = await Question.create({
