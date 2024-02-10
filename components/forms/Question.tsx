@@ -19,19 +19,20 @@ import { QuestionsSchema } from '@/lib/validations';
 import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
 import { createQuestion } from '@/lib/actions/question.action';
+import { useRouter, usePathname } from 'next/navigation';
 
 // set type of button 'create' | 'edit'
 const type: any = 'create';
+interface Props {
+  mongoUserId: string;
+}
 
-export default function Question() {
+export default function Question({ mongoUserId }: Props) {
   const editorRef = useRef(null);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const log = () => {
-    if (editorRef.current) {
-      console.log(editorRef.current.getContent());
-    }
-  };
+  const router = useRouter();
+  const pathname = usePathname();
   // 1. Define your form.
   const form = useForm<z.infer<typeof QuestionsSchema>>({
     resolver: zodResolver(QuestionsSchema),
@@ -51,8 +52,14 @@ export default function Question() {
       // CREATE
       // make an async call to your API -> create a question
       // contain all form data
-      await createQuestion({});
+      await createQuestion({
+        title: values.title,
+        content: values.explanation,
+        tags: values.tags,
+        author: JSON.parse(mongoUserId),
+      });
       // navigate to homepage
+      router.push('/');
       // EDIT
     } catch (error) {
       console.log(error);
