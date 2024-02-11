@@ -6,41 +6,11 @@ import { HomePageFilters } from '@/constants/filters';
 import HomeFilters from '@/components/home/HomeFilters';
 import NoResult from '@/components/shared/NoResult';
 import QuestionCard, { QuestionProps } from '@/components/cards/QuestionCard';
+import { getQuestions } from '@/lib/actions/question.action';
 
-const questions: QuestionProps[] = [
-  {
-    _id: '1',
-    title: 'Cascading Deletes in SQLAalchemy?',
-    tags: [
-      { _id: '1', name: 'python' },
-      { _id: '2', name: 'sql' },
-    ],
-    author: { _id: 'John Doe', name: 'John Doe', picture: 'john-doe.jpg' },
-    upvotes: 230000000,
-    views: 100002543260000,
-    answers: [],
-    createdAt: new Date('2021-09-01T12:00:00.000Z'),
-  },
-  {
-    _id: '2',
-    title: 'How to center a div?',
-    tags: [
-      { _id: '3', name: 'css' },
-      { _id: '4', name: 'tailwind' },
-    ],
-    author: {
-      _id: 'Collins Kiviasi',
-      name: 'Collins Kiviasi',
-      picture: 'collins.jpg',
-    },
-    upvotes: 10,
-    views: 100,
-    answers: [],
-    createdAt: new Date('2021-09-01T12:00:00.000Z'),
-  },
-];
-
-export default function Home() {
+export default async function Home() {
+  const result = await getQuestions({});
+  console.log(result.questions);
   return (
     <>
       <div className='flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center'>
@@ -70,8 +40,8 @@ export default function Home() {
       {/*  QUESTION CARD section */}
       <div className='mt-10 flex w-full flex-col gap-6'>
         {/*  looping through questions */}
-        {questions.length > 0 ? (
-          questions.map((question) => (
+        {result.questions.length > 0 ? (
+          result.questions.map((question) => (
             <QuestionCard
               key={question._id}
               _id={question._id}
