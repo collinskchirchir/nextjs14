@@ -9,11 +9,10 @@ import {
 } from '@/lib/actions/shared.types';
 import User from '@/database/user. model';
 import { revalidatePath } from 'next/cache';
-import { sort } from 'next/dist/build/webpack/loaders/css-loader/src/utils';
 
 export async function getQuestions(params: GetQuestionsParams) {
   try {
-    connectToDatabase();
+    await connectToDatabase();
     const questions = await Question.find({})
       .populate({ path: 'tags', model: Tag })
       .populate({ path: 'author', model: User })
@@ -28,7 +27,7 @@ export async function getQuestions(params: GetQuestionsParams) {
 export async function createQuestion(params: CreateQuestionParams) {
   try {
     // connect to DB
-    connectToDatabase();
+    await connectToDatabase();
     // 'path' is going to be the URL to the page we're going to reload
     const { title, content, tags, author, path } = params;
     // create the question
