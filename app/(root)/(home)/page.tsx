@@ -5,7 +5,7 @@ import Filter from '@/components/shared/Filter';
 import { HomePageFilters } from '@/constants/filters';
 import HomeFilters from '@/components/home/HomeFilters';
 import NoResult from '@/components/shared/NoResult';
-import QuestionCard, { QuestionProps } from '@/components/cards/QuestionCard';
+import QuestionCard from '@/components/cards/QuestionCard';
 import { getQuestions } from '@/lib/actions/question.action';
 
 export default async function Home() {

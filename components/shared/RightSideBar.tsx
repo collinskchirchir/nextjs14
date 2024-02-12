@@ -2,7 +2,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import RenderTag from '@/components/shared/RenderTag';
-import { tag } from 'postcss-selector-parser';
 
 const hotQuestions = [
   {

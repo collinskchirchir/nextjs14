@@ -1,7 +1,6 @@
 'use client';
 import { HomePageFilters } from '@/constants/filters';
 import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
 
 export default function HomeFilters() {
   const isActive = 'frequent';
