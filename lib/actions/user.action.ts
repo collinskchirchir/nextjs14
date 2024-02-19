@@ -9,6 +9,7 @@ import {
 } from '@/lib/actions/shared.types';
 import { revalidatePath } from 'next/cache';
 import Question from '@/database/question.model';
+import { FilterQuery } from 'mongoose';
 
 export async function getUserById(params: any) {
   try {
@@ -78,20 +79,23 @@ export async function deleteUser(params: DeleteUserParams) {
 export async function getAllUsers(params: GetAllUsersParams) {
   try {
     await connectToDatabase();
-    // const {page = 1, pageSize=20, filter, searchQuery} = params;
+
+    // const { searchQuery, filter, page = 1, pageSize = 20 } = params;
+
     const users = await User.find({}).sort({ createdAt: -1 });
-    return users;
+    return { users };
   } catch (error) {
-    console.log(error);
+    console.error(`❌ ${error} ❌`);
+    throw error;
   }
 }
 
 // export async function getAllUsers(params: GetAllUsersParams) {
 //   try {
-//     await connectToDatabase()
+//     await connectToDatabase();
 //
-//   }
-//   catch (error) {
-//     console.log(error)
+//   } catch (error) {
+//     console.error(`❌ ${error} ❌`);
+//     throw error;
 //   }
 // }
