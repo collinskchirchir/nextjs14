@@ -33,7 +33,7 @@ export default function Filter({
           )}
         >
           <div className='line-clamp-1 flex-1 text-left'>
-            <SelectValue placeholder='Theme' />
+            <SelectValue placeholder='Select a Filter' />
           </div>
         </SelectTrigger>
         <SelectContent>
