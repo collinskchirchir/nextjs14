@@ -9,7 +9,6 @@ import {
 } from '@/lib/actions/shared.types';
 import { revalidatePath } from 'next/cache';
 import Question from '@/database/question.model';
-import { FilterQuery } from 'mongoose';
 
 export async function getUserById(params: any) {
   try {
