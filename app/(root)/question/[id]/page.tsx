@@ -13,7 +13,6 @@ interface QuestionPageParams {
 const QuestionPage = async ({ params }: QuestionPageParams) => {
   // console.log(params);
   const question = await getQuestionById({ questionId: params.id });
-  /* Metrics Section */
   return (
     <>
       <div className='flex-start w-full flex-col'>
@@ -64,11 +63,8 @@ const QuestionPage = async ({ params }: QuestionPageParams) => {
           textStyles='small-medium text-dark400_light800'
         />
       </div>
-      {/*  End Of Metrics Section */}
-
       {/*  Question Content */}
       <ParseHTML data={question.content} />
-      {/*  End of Question Content */}
     </>
   );
 };
