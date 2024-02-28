@@ -6,6 +6,7 @@ import Metric from '@/components/shared/Metric';
 import { formatAndDivideNumber, getTimestamp } from '@/lib/utils';
 import ParseHTML from '@/components/shared/ParseHTML';
 import RenderTag from '@/components/shared/RenderTag';
+import Answer from '@/components/forms/Answer';
 
 interface QuestionPageParams {
   params: { id: string };
@@ -79,6 +80,9 @@ const QuestionPage = async ({ params }: QuestionPageParams) => {
           />
         ))}
       </div>
+
+      {/* Answer Form */}
+      <Answer />
     </>
   );
 };
