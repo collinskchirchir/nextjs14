@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Metric from '@/components/shared/Metric';
 import { formatAndDivideNumber, getTimestamp } from '@/lib/utils';
 import ParseHTML from '@/components/shared/ParseHTML';
+import RenderTag from '@/components/shared/RenderTag';
 
 interface QuestionPageParams {
   params: { id: string };
@@ -63,8 +64,21 @@ const QuestionPage = async ({ params }: QuestionPageParams) => {
           textStyles='small-medium text-dark400_light800'
         />
       </div>
+
       {/*  Question Content */}
       <ParseHTML data={question.content} />
+
+      {/* Question Tags */}
+      <div className='mt-8 flex flex-wrap gap-2'>
+        {question.tags.map((tag: any) => (
+          <RenderTag
+            key={tag._id}
+            _id={tag._id}
+            name={tag.name}
+            showCount={false}
+          />
+        ))}
+      </div>
     </>
   );
 };
