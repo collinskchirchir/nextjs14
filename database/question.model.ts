@@ -15,7 +15,7 @@ export interface IQuestion extends Document {
 
 // create Schema corresponding to document interface
 const QuestionSchema = new Schema({
-  title: { type: String, require: true },
+  title: { type: String, required: true },
   content: { type: String, required: true },
   tags: [{ type: Schema.Types.ObjectId, ref: 'Tag' }],
   views: { type: Number, default: 0 },
