@@ -15,8 +15,17 @@ import React, { useRef, useState } from 'react';
 import { useTheme } from '@/context/ThemeProvider';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
+import { createAnswer } from '@/lib/actions/answer.action';
+import { usePathname } from 'next/navigation';
 
-const Answer = () => {
+interface Props {
+  question: string;
+  questionId: string;
+  authorId: string;
+}
+
+const Answer = ({ question, questionId, authorId }: Props) => {
+  const pathname = usePathname();
   // fetch mode then modify editor mode accordingly
   const { mode } = useTheme();
   // eslint-disable-next-line no-unused-vars
@@ -29,7 +38,28 @@ const Answer = () => {
     },
   });
 
-  const handleCreateAnswer = () => {};
+  const handleCreateAnswer = async (values: z.infer<typeof AnswerSchema>) => {
+    setIsSubmitting(true);
+    try {
+      await createAnswer({
+        content: values.answer,
+        author: JSON.parse(authorId),
+        question: JSON.parse(questionId),
+        path: pathname,
+      });
+      // add another answer if we want to
+      answerForm.reset();
+      // clear editor
+      if (editorRef.current) {
+        const editor = editorRef.current as any;
+        editor.setContent('');
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
   return (
     <>
       <div className='flex flex-col justify-between gap-5 sm:flex-row sm:items-center sm:gap-2'>
@@ -111,7 +141,7 @@ const Answer = () => {
         {/* Submit Button */}
         <div className='mt-3 flex justify-end'>
           <Button
-            type='button'
+            type='submit'
             className='primary-gradient w-fit text-white'
             disabled={isSubmitting}
           >

@@ -7,6 +7,8 @@ import { formatAndDivideNumber, getTimestamp } from '@/lib/utils';
 import ParseHTML from '@/components/shared/ParseHTML';
 import RenderTag from '@/components/shared/RenderTag';
 import Answer from '@/components/forms/Answer';
+import { auth } from '@clerk/nextjs';
+import { getUserById } from '@/lib/actions/user.action';
 
 interface QuestionPageParams {
   params: { id: string };
@@ -15,6 +17,11 @@ interface QuestionPageParams {
 const QuestionPage = async ({ params }: QuestionPageParams) => {
   // console.log(params);
   const question = await getQuestionById({ questionId: params.id });
+  const { userId: clerkId } = auth();
+  let mongoUser;
+  if (clerkId) {
+    mongoUser = await getUserById({ userId: clerkId });
+  }
   return (
     <>
       <div className='flex-start w-full flex-col'>
@@ -82,7 +89,11 @@ const QuestionPage = async ({ params }: QuestionPageParams) => {
       </div>
 
       {/* Answer Form */}
-      <Answer />
+      <Answer
+        question={question.content}
+        questionId={JSON.stringify(question._id)}
+        authorId={JSON.stringify(mongoUser._id)}
+      />
     </>
   );
 };
