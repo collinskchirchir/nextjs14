@@ -9,6 +9,7 @@ import RenderTag from '@/components/shared/RenderTag';
 import Answer from '@/components/forms/Answer';
 import { auth } from '@clerk/nextjs';
 import { getUserById } from '@/lib/actions/user.action';
+import AllAnswers from '@/components/shared/AllAnswers';
 
 interface QuestionPageParams {
   params: { id: string };
@@ -22,6 +23,7 @@ const QuestionPage = async ({ params }: QuestionPageParams) => {
   if (clerkId) {
     mongoUser = await getUserById({ userId: clerkId });
   }
+
   return (
     <>
       <div className='flex-start w-full flex-col'>
@@ -87,6 +89,13 @@ const QuestionPage = async ({ params }: QuestionPageParams) => {
           />
         ))}
       </div>
+
+      {/* Answer List */}
+      <AllAnswers
+        questionId={question._id}
+        userId={JSON.stringify(mongoUser._id)}
+        totalAnswers={question.answers.lenght}
+      />
 
       {/* Answer Form */}
       <Answer

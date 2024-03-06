@@ -41,21 +41,23 @@ const Answer = ({ question, questionId, authorId }: Props) => {
   const handleCreateAnswer = async (values: z.infer<typeof AnswerSchema>) => {
     setIsSubmitting(true);
     try {
+      // Create question
       await createAnswer({
         content: values.answer,
         author: JSON.parse(authorId),
         question: JSON.parse(questionId),
         path: pathname,
       });
-      // add another answer if we want to
+
+      // Reset form
       answerForm.reset();
-      // clear editor
       if (editorRef.current) {
         const editor = editorRef.current as any;
         editor.setContent('');
       }
     } catch (error) {
-      console.log(error);
+      console.error(`❌ ${error} ❌`);
+      throw error;
     } finally {
       setIsSubmitting(false);
     }
@@ -142,7 +144,7 @@ const Answer = ({ question, questionId, authorId }: Props) => {
         <div className='mt-3 flex justify-end'>
           <Button
             type='submit'
-            className='primary-gradient w-fit text-white'
+            className='primary-gradient w-fit !text-light-900'
             disabled={isSubmitting}
           >
             {isSubmitting ? 'Submitting...' : 'Submit'}

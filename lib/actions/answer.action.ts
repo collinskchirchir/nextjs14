@@ -1,5 +1,8 @@
 'use server';
-import { CreateAnswerParams } from '@/lib/actions/shared.types';
+import {
+  CreateAnswerParams,
+  GetAnswersParams,
+} from '@/lib/actions/shared.types';
 import { connectToDatabase } from '@/lib/mongoose';
 import Answer from '@/database/answer.model';
 import { revalidatePath } from 'next/cache';
@@ -9,14 +12,15 @@ export async function createAnswer(params: CreateAnswerParams) {
   try {
     await connectToDatabase();
     const { author, question, content, path } = params;
-    const answer = new Answer({
+    const answer = await Answer.create({
       question,
       author,
       content,
     });
 
     // Add the answer to the question's answers array
-    await Question.findByIdAndUpdate(question, {
+    // eslint-disable-next-line no-unused-vars
+    const questionObject = await Question.findByIdAndUpdate(question, {
       $push: { answers: answer._id },
     });
 
@@ -27,5 +31,18 @@ export async function createAnswer(params: CreateAnswerParams) {
   } catch (error) {
     console.log(error);
     throw error;
+  }
+}
+
+export async function getAnswers(params: GetAnswersParams) {
+  try {
+    await connectToDatabase();
+    const { questionId } = params;
+    const answers = await Answer.find({ question: questionId })
+      .populate('author', '_id clerkId name picture')
+      .sort({ createdAt: -1 });
+    return { answers };
+  } catch (error) {
+    console.log(error);
   }
 }
