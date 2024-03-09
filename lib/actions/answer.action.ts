@@ -13,14 +13,14 @@ export async function createAnswer(params: CreateAnswerParams) {
     await connectToDatabase();
     const { author, question, content, path } = params;
     const answer = await Answer.create({
-      question,
-      author,
       content,
+      author,
+      question,
     });
 
     // Add the answer to the question's answers array
     // eslint-disable-next-line no-unused-vars
-    const questionObject = await Question.findByIdAndUpdate(question, {
+    await Question.findByIdAndUpdate(question, {
       $push: { answers: answer._id },
     });
 
