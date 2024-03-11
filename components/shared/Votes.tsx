@@ -7,6 +7,7 @@ import {
   upvoteQuestion,
 } from '@/lib/actions/question.action';
 import { usePathname, useRouter } from 'next/navigation';
+import { downvoteAnswer, upvoteAnswer } from '@/lib/actions/answer.action';
 
 interface Props {
   type: string;
@@ -30,6 +31,7 @@ const Votes = ({
   hasSaved,
 }: Props) => {
   const pathName = usePathname();
+  // eslint-disable-next-line no-unused-vars
   const router = useRouter();
   const handleVote = async (action: string) => {
     if (!userId) {
@@ -46,13 +48,14 @@ const Votes = ({
           path: pathName,
         });
       } else if (type === 'Answer') {
-        // await upvoteAnswer({
-        //   questionId: JSON.parse(itemId),
-        //   userId: JSON.parse(userId),
-        //   hasUpvoted,
-        //   hasDownvoted,
-        //   path: pathName,
-        // });
+        console.log('upvoteAnswer Clicked!');
+        await upvoteAnswer({
+          answerId: JSON.parse(itemId),
+          userId: JSON.parse(userId),
+          hasUpvoted,
+          hasDownvoted,
+          path: pathName,
+        });
       }
       // TODO: show a toast
     }
@@ -68,13 +71,13 @@ const Votes = ({
           path: pathName,
         });
       } else if (type === 'Answer') {
-        // await downvoteAnswer({
-        //   questionId: JSON.parse(itemId),
-        //   userId: JSON.parse(userId),
-        //   hasUpvoted,
-        //   hasDownvoted,
-        //   path: pathName,
-        // });
+        await downvoteAnswer({
+          answerId: JSON.parse(itemId),
+          userId: JSON.parse(userId),
+          hasUpvoted,
+          hasDownvoted,
+          path: pathName,
+        });
       }
       // TODO: show a toast
     }
@@ -127,18 +130,20 @@ const Votes = ({
         </div>
       </div>
       {/* SAVED */}
-      <Image
-        src={
-          hasSaved
-            ? '/assets/icons/star-filled.svg'
-            : '/assets/icons/star-red.svg'
-        }
-        alt='star'
-        width={18}
-        height={18}
-        className='cursor-pointer'
-        onClick={() => handleSave}
-      />
+      {type === 'Question' && (
+        <Image
+          src={
+            hasSaved
+              ? '/assets/icons/star-filled.svg'
+              : '/assets/icons/star-red.svg'
+          }
+          alt='star'
+          width={18}
+          height={18}
+          className='cursor-pointer'
+          onClick={() => handleSave}
+        />
+      )}
     </div>
   );
 };

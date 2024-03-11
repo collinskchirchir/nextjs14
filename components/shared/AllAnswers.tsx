@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { getTimestamp } from '@/lib/utils';
 import ParseHTML from '@/components/shared/ParseHTML';
+import Votes from '@/components/shared/Votes';
 // import { getAnswers } from '@/lib/actions/answer.action';
 
 interface Props {
@@ -57,7 +58,18 @@ const AllAnswers = async ({
                     </div>
                   </Link>
                   {/*  Voting */}
-                  <div className='flex justify-end'>VOTING</div>
+                  {/* FIXME: Voting component should display on end */}
+                  <div className='flex justify-end'>
+                    <Votes
+                      type='Answer'
+                      itemId={JSON.stringify(answer._id)}
+                      userId={JSON.stringify(userId)}
+                      upvotes={answer.upvotes.length}
+                      hasUpvoted={answer.upvotes.includes(userId)}
+                      downvotes={answer.downvotes.length}
+                      hasDownvoted={answer.downvotes.includes(userId)}
+                    />
+                  </div>
                 </div>
               </div>
               <ParseHTML data={answer.content} />
