@@ -10,6 +10,7 @@ import Answer from '@/components/forms/Answer';
 import { auth } from '@clerk/nextjs';
 import { getUserById } from '@/lib/actions/user.action';
 import AllAnswers from '@/components/shared/AllAnswers';
+import Votes from '@/components/shared/Votes';
 
 interface QuestionPageParams {
   params: { id: string };
@@ -43,7 +44,18 @@ const QuestionPage = async ({ params }: QuestionPageParams) => {
               {question.author.name}
             </p>
           </Link>
-          <div className='flex justify-end'>VOTING</div>
+          <div className='flex justify-end'>
+            <Votes
+              type='question'
+              itemId={JSON.stringify(question._id)}
+              userId={JSON.stringify(mongoUser._id)}
+              upvotes={question.upvotes.length}
+              hasupVoted={question.upvotes.includes(mongoUser._id)}
+              downvotes={question.downvotes.length}
+              hasdownVoted={question.downvotes.includes(mongoUser._id)}
+              hasSaved={mongoUser?.saved.includes(question._id)}
+            />
+          </div>
         </div>
         <h2 className='h2-semibold text-dark200_light900 mt-3.5 w-full text-left'>
           {question.title}
