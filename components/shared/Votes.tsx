@@ -2,6 +2,11 @@
 import React from 'react';
 import Image from 'next/image';
 import { formatAndDivideNumber } from '@/lib/utils';
+import {
+  downvoteQuestion,
+  upvoteQuestion,
+} from '@/lib/actions/question.action';
+import { usePathname, useRouter } from 'next/navigation';
 
 interface Props {
   type: string;
@@ -24,7 +29,57 @@ const Votes = ({
   hasDownvoted,
   hasSaved,
 }: Props) => {
-  const handleVote = (action: string) => {};
+  const pathName = usePathname();
+  const router = useRouter();
+  const handleVote = async (action: string) => {
+    if (!userId) {
+      return;
+    }
+    /** DOWN VOTE LOGIC */
+    if (action === 'upvote') {
+      if (type === 'Question') {
+        await upvoteQuestion({
+          questionId: JSON.parse(itemId),
+          userId: JSON.parse(userId),
+          hasUpvoted,
+          hasDownvoted,
+          path: pathName,
+        });
+      } else if (type === 'Answer') {
+        // await upvoteAnswer({
+        //   questionId: JSON.parse(itemId),
+        //   userId: JSON.parse(userId),
+        //   hasUpvoted,
+        //   hasDownvoted,
+        //   path: pathName,
+        // });
+      }
+      // TODO: show a toast
+    }
+
+    /** DOWN VOTE LOGIC */
+    if (action === 'downvote') {
+      if (type === 'Question') {
+        await downvoteQuestion({
+          questionId: JSON.parse(itemId),
+          userId: JSON.parse(userId),
+          hasUpvoted,
+          hasDownvoted,
+          path: pathName,
+        });
+      } else if (type === 'Answer') {
+        // await downvoteAnswer({
+        //   questionId: JSON.parse(itemId),
+        //   userId: JSON.parse(userId),
+        //   hasUpvoted,
+        //   hasDownvoted,
+        //   path: pathName,
+        // });
+      }
+      // TODO: show a toast
+    }
+  };
+
   const handleSave = () => {};
 
   return (
@@ -87,5 +142,4 @@ const Votes = ({
     </div>
   );
 };
-
 export default Votes;
