@@ -94,7 +94,7 @@ const QuestionPage = async ({ params }: QuestionPageParams) => {
       <AllAnswers
         questionId={question._id}
         userId={JSON.stringify(mongoUser._id)}
-        totalAnswers={question.answers.lenght}
+        totalAnswers={question.answers.length}
       />
 
       {/* Answer Form */}
