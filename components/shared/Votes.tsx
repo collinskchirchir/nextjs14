@@ -8,9 +8,9 @@ interface Props {
   itemId: string;
   userId: string;
   upvotes: number;
-  hasupVoted: boolean;
+  hasUpvoted: boolean;
   downvotes: number;
-  hasdownVoted: boolean;
+  hasDownvoted: boolean;
   hasSaved?: boolean;
 }
 
@@ -20,10 +20,13 @@ const Votes = ({
   userId,
   upvotes,
   downvotes,
-  hasupVoted,
-  hasdownVoted,
+  hasUpvoted,
+  hasDownvoted,
   hasSaved,
 }: Props) => {
+  const handleVote = (action: string) => {};
+  const handleSave = () => {};
+
   return (
     <div className='flex gap-5'>
       <div className='flex-center gap-2.5'>
@@ -31,7 +34,7 @@ const Votes = ({
         <div className='flex-center gap-1.5'>
           <Image
             src={
-              hasupVoted
+              hasUpvoted
                 ? '/assets/icons/upvoted.svg'
                 : '/assets/icons/upvote.svg'
             }
@@ -39,7 +42,7 @@ const Votes = ({
             width={18}
             height={18}
             className='cursor-pointer'
-            onClick={() => {}}
+            onClick={() => handleVote('upvote')}
           />
           <div className='flex-center background-light700_dark400 min-w-[18px] rounded-sm p-1'>
             <p className='subtle-medium text-dark400_light900'>
@@ -51,15 +54,15 @@ const Votes = ({
         <div className='flex-center gap-1.5'>
           <Image
             src={
-              hasdownVoted
+              hasDownvoted
                 ? '/assets/icons/downvoted.svg'
                 : '/assets/icons/downvote.svg'
             }
-            alt='upvote'
+            alt='downvote'
             width={18}
             height={18}
             className='cursor-pointer'
-            onClick={() => {}}
+            onClick={() => handleVote('downvote')}
           />
           <div className='flex-center background-light700_dark400 min-w-[18px] rounded-sm p-1'>
             <p className='subtle-medium text-dark400_light900'>
@@ -79,7 +82,7 @@ const Votes = ({
         width={18}
         height={18}
         className='cursor-pointer'
-        onClick={() => {}}
+        onClick={() => handleSave}
       />
     </div>
   );
