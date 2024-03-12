@@ -95,6 +95,7 @@ export async function toggleSaveQuestion(params: ToggleSaveQuestionParams) {
     await connectToDatabase();
 
     const { questionId, userId, path } = params;
+    // fetch user object
     const user = await User.findById(userId);
     if (!user) {
       throw new Error('❌ User not found ❌');
