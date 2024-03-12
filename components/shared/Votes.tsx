@@ -148,7 +148,7 @@ const Votes = ({
           width={18}
           height={18}
           className='cursor-pointer'
-          onClick={() => handleSave}
+          onClick={handleSave}
         />
       )}
     </div>
