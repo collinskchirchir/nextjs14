@@ -90,7 +90,11 @@ const ProfilePage = async ({ params, searchParams }: URLProps) => {
             </TabsTrigger>
           </TabsList>
           <TabsContent value='top-posts'>
-            <QuestionTab />
+            <QuestionTab
+              searchParams={searchParams}
+              userId={userInfo.user._id}
+              clerkId={clerkId}
+            />
           </TabsContent>
           <TabsContent value='answers'>ANSWERS</TabsContent>
         </Tabs>
