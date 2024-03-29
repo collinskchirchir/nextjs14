@@ -201,6 +201,25 @@ export async function getUserQuestions(params: GetUserStatsParams) {
   }
 }
 
+export async function getUserAnswers(params: GetUserStatsParams) {
+  try {
+    await connectToDatabase();
+    // eslint-disable-next-line no-unused-vars
+    const { userId, page = 1, pageSize = 10 } = params;
+    const totalAnswers = await Answer.countDocuments({ author: userId });
+    const userAnswers = await Answer.find({ author: userId })
+      .sort({
+        upvotes: -1,
+      })
+      .populate('question', '_id title')
+      .populate('author', '_id clerkId name picture');
+    return { totalAnswers, answers: userAnswers };
+  } catch (error) {
+    console.error(`❌ ${error} ❌`);
+    throw error;
+  }
+}
+
 // export async function getAllUsers(params: GetAllUsersParams) {
 //   try {
 //     await connectToDatabase();
