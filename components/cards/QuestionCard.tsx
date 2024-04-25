@@ -2,6 +2,8 @@ import Link from 'next/link';
 import RenderTag from '@/components/shared/RenderTag';
 import Metric from '@/components/shared/Metric';
 import { formatAndDivideNumber, getTimestamp } from '@/lib/utils';
+import { SignedIn } from '@clerk/nextjs';
+import EditDeleteAction from '@/components/shared/EditDeleteAction';
 
 export interface QuestionProps {
   _id: string;
@@ -14,6 +16,7 @@ export interface QuestionProps {
     _id: string;
     name: string;
     picture: string;
+    clerkId: string;
   };
   upvotes: string[];
   views: number;
@@ -33,6 +36,7 @@ export default function QuestionCard({
   answers,
   createdAt,
 }: QuestionProps) {
+  const showActionButtons = clerkId && clerkId === author.clerkId;
   return (
     <div className='card-wrapper rounded-[10px] p-9 sm:px-11'>
       <div className='flex flex-col-reverse items-start justify-between gap-5 sm:flex-row'>
@@ -46,7 +50,13 @@ export default function QuestionCard({
             </h3>
           </Link>
         </div>
-        {/*  TODO: If signed in, ADD EDIT DELETE actions */}
+        {/*  If signed in, ADD EDIT DELETE actions */}
+        <SignedIn>
+          {/*  check current logged in user is author of question */}
+          {showActionButtons && (
+            <EditDeleteAction type='Question' itemId={JSON.stringify(_id)} />
+          )}
+        </SignedIn>
       </div>
       {/* TAGS */}
       <div className='mt-3.5 flex flex-wrap gap-2'>
