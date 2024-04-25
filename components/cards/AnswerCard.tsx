@@ -2,6 +2,9 @@ import Link from 'next/link';
 
 import Metric from '../shared/Metric';
 import { formatAndDivideNumber, getTimestamp } from '@/lib/utils';
+import EditDeleteAction from '@/components/shared/EditDeleteAction';
+import { SignedIn } from '@clerk/nextjs';
+import React from 'react';
 
 interface Props {
   clerkId?: string | null;
@@ -28,6 +31,7 @@ const AnswerCard = ({
   upvotes,
   createdAt,
 }: Props) => {
+  const showActionButtons = clerkId && clerkId === author.clerkId;
   // @ts-ignore
   // @ts-ignore
   return (
@@ -43,6 +47,12 @@ const AnswerCard = ({
         </Link>
 
         {/* If signed in Add Edit Delete actions */}
+        <SignedIn>
+          {/*  check current logged in user is author of question */}
+          {showActionButtons && (
+            <EditDeleteAction type='Answer' itemId={JSON.stringify(_id)} />
+          )}
+        </SignedIn>
       </div>
 
       <div className='flex-between mt-6 w-full flex-wrap gap-3'>
