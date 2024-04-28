@@ -127,7 +127,7 @@ export async function deleteAnswer(params: DeleteAnswerParams) {
     // remove references on tags to question
     await Question.updateMany(
       { _id: answer.question },
-      { $pull: { answers: answer._id } }
+      { $pull: { answers: answerId } }
     );
     // Delete all interaction relative to the answer
     await Interaction.deleteMany({ answer: answerId });
