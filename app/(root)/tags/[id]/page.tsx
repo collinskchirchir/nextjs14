@@ -11,7 +11,6 @@ const TagDetailsPage = async ({ params, searchParams }: URLProps) => {
     page: 1,
     searchQuery: searchParams.q,
   });
-  console.log(result);
   return (
     <>
       <h1 className='h1-bold text-dark100_light900'>
@@ -20,7 +19,7 @@ const TagDetailsPage = async ({ params, searchParams }: URLProps) => {
 
       <div className='mt-11 w-full'>
         <LocalSearchbar
-          route='/'
+          route={`/tags/${params.id}`}
           iconPosition='left'
           imgSrc='/assets/icons/search.svg'
           placeholder='Search for tag questions'
