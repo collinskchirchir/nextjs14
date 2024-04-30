@@ -6,12 +6,14 @@ import QuestionCard from '@/components/cards/QuestionCard';
 import NoResult from '@/components/shared/NoResult';
 import { getSavedQuestions } from '@/lib/actions/user.action';
 import { auth } from '@clerk/nextjs';
+import { SearchParamsProps } from '@/types';
 
-const Collection = async () => {
+const Collection = async ({ searchParams }: SearchParamsProps) => {
   const { userId } = auth();
   if (!userId) return null;
   const result = await getSavedQuestions({
     clerkId: userId,
+    searchQuery: searchParams.q,
   });
   console.log('Collection Results:', JSON.stringify(result));
   return (
