@@ -1,5 +1,5 @@
 'use client';
-import { cn } from '@/lib/utils';
+import { cn, formUrlQuery } from '@/lib/utils';
 import {
   Select,
   SelectContent,
@@ -8,6 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 interface Props {
   filters: {
@@ -23,9 +24,23 @@ export default function Filter({
   otherClasses,
   containerClasses,
 }: Props) {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const paramFilter = searchParams.get('filter');
+  const handleUpdateParams = (value: string) => {
+    const newUrl = formUrlQuery({
+      params: searchParams.toString(),
+      key: 'filter',
+      value,
+    });
+    router.push(newUrl, { scroll: false });
+  };
   return (
     <div className={cn('relative', containerClasses)}>
-      <Select>
+      <Select
+        onValueChange={handleUpdateParams}
+        defaultValue={paramFilter || undefined}
+      >
         <SelectTrigger
           className={cn(
             otherClasses,
