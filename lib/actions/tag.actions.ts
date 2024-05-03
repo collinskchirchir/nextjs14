@@ -33,12 +33,12 @@ export async function getAllTags(params: GetAllTagsParams) {
   try {
     await connectToDatabase();
     const { searchQuery, filter } = params;
-
     const query: FilterQuery<typeof Tag> = {};
     let sortOptions = {};
+
     switch (filter) {
       case 'popular':
-        sortOptions = { questions: -1 };
+        sortOptions = { questionCount: -1 }; // Sort based on the size of the questions array
         break;
       case 'recent':
         sortOptions = { createdOn: -1 };
@@ -50,10 +50,17 @@ export async function getAllTags(params: GetAllTagsParams) {
         sortOptions = { createdOn: 1 };
         break;
     }
+
     if (searchQuery) {
       query.$or = [{ name: { $regex: new RegExp(searchQuery, 'i') } }];
     }
-    const tags = await Tag.find(query).sort(sortOptions);
+
+    const tags = await Tag.aggregate([
+      { $match: query },
+      { $addFields: { questionCount: { $size: '$questions' } } }, // Add a field representing the size of the questions array
+      { $sort: sortOptions },
+    ]);
+
     return { tags };
   } catch (error) {
     console.error(`❌ ${error} ❌`);
