@@ -14,9 +14,13 @@ import Votes from '@/components/shared/Votes';
 
 interface QuestionPageParams {
   params: { id: string };
+  searchParams: {
+    page?: number;
+    filter?: string;
+  };
 }
 
-const QuestionPage = async ({ params }: QuestionPageParams) => {
+const QuestionPage = async ({ params, searchParams }: QuestionPageParams) => {
   // console.log(params);
   const question = await getQuestionById({ questionId: params.id });
   const { userId: clerkId } = auth();
@@ -107,6 +111,8 @@ const QuestionPage = async ({ params }: QuestionPageParams) => {
         questionId={question._id}
         userId={mongoUser._id}
         totalAnswers={question.answers.length}
+        page={searchParams?.page}
+        filter={searchParams?.filter}
       />
 
       {/* Answer Form */}
