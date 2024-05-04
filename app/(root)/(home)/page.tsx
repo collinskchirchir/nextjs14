@@ -8,6 +8,7 @@ import NoResult from '@/components/shared/NoResult';
 import QuestionCard from '@/components/cards/QuestionCard';
 import { getQuestions } from '@/lib/actions/question.action';
 import { SearchParamsProps } from '@/types';
+import PaginationComponent from '@/components/Pagination';
 
 export default async function Home({ searchParams }: SearchParamsProps) {
   const result = await getQuestions({
@@ -70,6 +71,12 @@ export default async function Home({ searchParams }: SearchParamsProps) {
         )}
       </div>
       {/*  END OF QUESTION CARD section */}
+      <div className='mt-10'>
+        <PaginationComponent
+          pageNumber={searchParams?.page ? +searchParams.page : 1}
+          isNext={result.isNext}
+        />
+      </div>
     </>
   );
 }
