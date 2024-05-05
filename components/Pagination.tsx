@@ -10,9 +10,9 @@ interface Props {
 }
 
 const PaginationComponent = ({ pageNumber, isNext }: Props) => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const handleNavigation = (direction: string) => {
-    const router = useRouter();
-    const searchParams = useSearchParams();
     const nextPageNumber =
       direction === 'prev' ? pageNumber - 1 : pageNumber + 1;
     const newUrl = formUrlQuery({
