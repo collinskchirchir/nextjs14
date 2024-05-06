@@ -20,7 +20,7 @@ import { FilterQuery } from 'mongoose';
 export async function getQuestions(params: GetQuestionsParams) {
   try {
     await connectToDatabase();
-    const { searchQuery, filter, page = 1, pageSize = 2 } = params;
+    const { searchQuery, filter, page = 1, pageSize = 10 } = params;
     // Calculate the no. of posts to skip based on page and pageSize
     const skipAmount = (page - 1) * pageSize;
     const query: FilterQuery<typeof Question> = {};
