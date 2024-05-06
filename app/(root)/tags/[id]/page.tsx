@@ -4,11 +4,12 @@ import LocalSearchbar from '@/components/shared/search/LocalSearchbar';
 import QuestionCard from '@/components/cards/QuestionCard';
 import NoResult from '@/components/shared/NoResult';
 import { URLProps } from '@/types';
+import PaginationComponent from '@/components/Pagination';
 
 const TagDetailsPage = async ({ params, searchParams }: URLProps) => {
   const result = await getQuestionsByTagId({
     tagId: params.id,
-    page: 1,
+    page: searchParams.page ? +searchParams.page : 1,
     searchQuery: searchParams.q,
   });
   return (
@@ -54,6 +55,12 @@ const TagDetailsPage = async ({ params, searchParams }: URLProps) => {
         )}
       </div>
       {/*  END OF QUESTION CARD section */}
+      <div className='mt-10'>
+        <PaginationComponent
+          pageNumber={searchParams?.page ? +searchParams.page : 1}
+          isNext={result?.isNext || false}
+        />
+      </div>
     </>
   );
 };
