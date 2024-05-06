@@ -95,7 +95,7 @@ export async function getQuestionsByTagId(params: GetQuestionsByTagIdParams) {
       options: {
         sort: { createdAt: -1 },
         skip: skipAmount,
-        limit: pageSize + 1, // +1 to check if there is next page
+        limit: pageSize, // +1 to check if there is next page FIXME: doesn't work correctly
       },
       populate: [
         { path: 'tags', model: Tag, select: '_id name' },
@@ -105,7 +105,7 @@ export async function getQuestionsByTagId(params: GetQuestionsByTagIdParams) {
     if (!tag) {
       throw new Error('❌🔍 Tag not found 🔍❌');
     }
-    const isNext = tag.questions.length > pageSize;
+    const isNext = tag.questions.length >= pageSize;
     const questions = tag.questions;
 
     return { tagTitle: tag.name, questions, isNext };
