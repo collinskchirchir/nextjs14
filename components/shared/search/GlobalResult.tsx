@@ -12,12 +12,8 @@ const GlobalResult = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState([
     { type: 'question', id: 1, title: 'Next.js  question' },
-    { type: 'tag', id: 1, title: 'Next.js  question' },
-    {
-      type: 'user',
-      id: 1,
-      title: 'Next.js  question',
-    },
+    { type: 'tag', id: 1, title: 'Tag 1' },
+    { type: 'user', id: 1, title: 'User Name' },
   ]);
 
   const global = searchParams.get('global');
