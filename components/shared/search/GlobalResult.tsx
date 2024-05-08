@@ -5,16 +5,13 @@ import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import GlobalFilters from '@/components/shared/search/GlobalFilters';
+import { globalSearch } from '@/lib/actions/general.action';
 
 const GlobalResult = () => {
   const searchParams = useSearchParams();
 
   const [isLoading, setIsLoading] = useState(false);
-  const [result, setResult] = useState([
-    { type: 'question', id: 1, title: 'Next.js  question' },
-    { type: 'tag', id: 1, title: 'Tag 1' },
-    { type: 'user', id: 1, title: 'User Name' },
-  ]);
+  const [result, setResult] = useState([]);
 
   const global = searchParams.get('global');
   // 'type' is a filter for the type of data we want
@@ -25,7 +22,11 @@ const GlobalResult = () => {
       setResult([]);
       setIsLoading(true);
       try {
-        // fetch everything, everywhere in the database all at once...
+        const res = await globalSearch({
+          query: global,
+          type,
+        });
+        setResult(JSON.parse(res));
       } catch (error) {
         console.log(error);
         throw error;
@@ -33,10 +34,24 @@ const GlobalResult = () => {
         setIsLoading(false);
       }
     };
+    if (global) {
+      fetchResult();
+    }
   }, [global, type]);
 
   const renderLink = (type: string, id: string) => {
-    return '/';
+    switch (type) {
+      case 'question':
+        return `/question/${id}`;
+      case 'answer':
+        return `/question/${id}`;
+      case 'user':
+        return `/profile/${id}`;
+      case 'tag':
+        return `/tags/${id}`;
+      default:
+        return '/';
+    }
   };
   return (
     <div className='absolute top-full z-10 mt-3 w-full rounded-xl bg-light-800 py-5 shadow-sm dark:bg-dark-400'>
@@ -60,9 +75,9 @@ const GlobalResult = () => {
             {result.length > 0 ? (
               result.map((item: any, index: number) => (
                 <Link
-                  href={renderLink('type', 'id')}
                   key={item.type + item.id + index}
-                  className='dark: flex w-full cursor-pointer items-start gap-3 px-5 py-2.5 hover:bg-light-700/50 dark:bg-dark-500/50'
+                  href={renderLink(item.type, item.id)}
+                  className='flex w-full cursor-pointer items-start gap-3 px-5 py-2.5 hover:bg-light-700/50 dark:bg-dark-500/50'
                 >
                   <Image
                     src='/assets/icons/tag.svg'
@@ -71,6 +86,7 @@ const GlobalResult = () => {
                     height={18}
                     className='invert-colors mt-1 object-contain'
                   />
+
                   <div className='flex flex-col'>
                     <p className='body-medium text-dark200_light800 line-clamp-1'>
                       {item.title}

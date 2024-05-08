@@ -1,7 +1,7 @@
 'use client';
 import Image from 'next/image';
 import { Input } from '@/components/ui/input';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { formUrlQuery, removeKeysFromQuery } from '@/lib/utils';
 import GlobalResult from '@/components/shared/search/GlobalResult';
@@ -13,8 +13,32 @@ export default function GlobalSearch() {
 
   const query = searchParams.get('q');
 
+  const searchContainerRef = useRef(null);
+
   const [search, setSearch] = useState(query || '');
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    const handleOutsideClick = (event: any) => {
+      if (
+        searchContainerRef.current &&
+        // @ts-ignore
+        !searchContainerRef.current.contains(event.target)
+      ) {
+        setIsOpen(false);
+        setSearch('');
+      }
+    };
+
+    setIsOpen(false);
+    setSearch('');
+
+    document.addEventListener('click', handleOutsideClick);
+
+    return () => {
+      document.removeEventListener('click', handleOutsideClick);
+    };
+  }, [pathname]);
   useEffect(() => {
     // implement debounce
     const delayDebounceFn = setTimeout(() => {
