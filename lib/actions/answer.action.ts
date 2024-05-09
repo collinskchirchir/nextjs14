@@ -3,7 +3,6 @@ import {
   AnswerVoteParams,
   CreateAnswerParams,
   DeleteAnswerParams,
-  DeleteQuestionParams,
   GetAnswersParams,
 } from '@/lib/actions/shared.types';
 import { connectToDatabase } from '@/lib/mongoose';
@@ -11,7 +10,7 @@ import Answer from '@/database/answer.model';
 import { revalidatePath } from 'next/cache';
 import Question from '@/database/question.model';
 import Interaction from '@/database/iteraction.model';
-import Tag from '@/database/tag.model';
+
 import User from '@/database/user. model';
 
 export async function createAnswer(params: CreateAnswerParams) {
