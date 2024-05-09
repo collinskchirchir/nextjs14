@@ -44,6 +44,7 @@ export async function getQuestions(params: GetQuestionsParams) {
       // case 'recommended':
       //   break;
       default:
+        sortOptions = { createdAt: -1 };
         break;
     }
     const questions = await Question.find(query)
@@ -88,12 +89,22 @@ export async function createQuestion(params: CreateQuestionParams) {
     await Question.findByIdAndUpdate(question._id, {
       $push: { tags: { $each: tagDocuments } },
     });
-    // TODO: Create an interaction record for the user's ask_question action
+    // Create an interaction record for the user's ask_question action
+    await Interaction.create({
+      user: author,
+      action: 'ask_question',
+      question: question._id,
+      tags: tagDocuments,
+    });
 
-    // TODO: Increment author's reputation by +5 for creating a question
-
+    // Increment author's reputation by +5 for creating a question
+    await User.findByIdAndUpdate(author, {
+      $inc: { reputation: 5 },
+    });
     revalidatePath(path);
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 export async function getQuestionById(params: GetQuestionByIdParams) {
@@ -140,7 +151,14 @@ export async function upvoteQuestion(params: QuestionVoteParams) {
       throw new Error('Question not found');
     }
 
-    //   TODO: Increase author's reputation to +10 for upvoting a question
+    //   Increase author's reputation to +1/-1 for upvoting/revoking a question
+    await User.findByIdAndUpdate(userId, {
+      $inc: { reputation: hasUpvoted ? -1 : 1 },
+    });
+    //   Increase author's reputation to +10/-10 for upvoting/revoking a question
+    await User.findByIdAndUpdate(question.author, {
+      $inc: { reputation: hasUpvoted ? -10 : 10 },
+    });
     revalidatePath(path);
   } catch (error) {
     console.error(`❌ ${error} ❌`);
