@@ -12,6 +12,7 @@ import { revalidatePath } from 'next/cache';
 import Question from '@/database/question.model';
 import Interaction from '@/database/iteraction.model';
 import Tag from '@/database/tag.model';
+import User from '@/database/user. model';
 
 export async function createAnswer(params: CreateAnswerParams) {
   try {
@@ -25,11 +26,22 @@ export async function createAnswer(params: CreateAnswerParams) {
 
     // Add the answer to the question's answers array
     // eslint-disable-next-line no-unused-vars
-    await Question.findByIdAndUpdate(question, {
+    const questionObj = await Question.findByIdAndUpdate(question, {
       $push: { answers: answer._id },
     });
 
-    // TODO: Add interaction...
+    // Add interaction...
+    await Interaction.create({
+      user: author,
+      action: 'answer',
+      question: answer._id,
+      tags: questionObj.tags,
+    });
+
+    // Increase user reputation 10+
+    await User.findByIdAndUpdate(author, {
+      $inc: { reputation: 10 },
+    });
 
     // no need to return answer(it's like a refresh)
     revalidatePath(path);
@@ -98,7 +110,14 @@ export async function upvoteAnswer(params: AnswerVoteParams) {
       throw new Error('Answer not found');
     }
 
-    //   TODO: Increase author's reputation to +10 for upvoting a answer
+    // Increase user's reputation to +2 for upvoting a answer
+    await User.findByIdAndUpdate(userId, {
+      $inc: { reputation: hasUpvoted ? -2 : 2 },
+    });
+    // Increase authors reputation to +2 for upvoting a answer
+    await User.findByIdAndUpdate(answer.author, {
+      $inc: { reputation: hasUpvoted ? -2 : 2 },
+    });
     revalidatePath(path);
   } catch (error) {
     console.error(`❌ ${error} ❌`);
@@ -130,6 +149,14 @@ export async function downvoteAnswer(params: AnswerVoteParams) {
     if (!answer) {
       throw new Error('Answer not found');
     }
+    // Increase user's reputation to +2 for downvoting a answer
+    await User.findByIdAndUpdate(userId, {
+      $inc: { reputation: hasDownvoted ? -2 : 2 },
+    });
+    // Increase authors reputation to +2 for downvoting a answer
+    await User.findByIdAndUpdate(answer.author, {
+      $inc: { reputation: hasDownvoted ? -2 : 2 },
+    });
 
     revalidatePath(path);
   } catch (error) {
