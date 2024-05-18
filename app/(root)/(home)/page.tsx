@@ -9,6 +9,7 @@ import QuestionCard from '@/components/cards/QuestionCard';
 import { getQuestions } from '@/lib/actions/question.action';
 import { SearchParamsProps } from '@/types';
 import PaginationComponent from '@/components/Pagination';
+import Loading from './loading';
 
 export default async function Home({ searchParams }: SearchParamsProps) {
   const result = await getQuestions({
@@ -18,6 +19,8 @@ export default async function Home({ searchParams }: SearchParamsProps) {
   });
 
   // fetch recommended
+  const loading = true;
+  if (loading) return <Loading />;
 
   return (
     <>
