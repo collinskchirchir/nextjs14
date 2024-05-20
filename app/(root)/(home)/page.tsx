@@ -19,8 +19,6 @@ export default async function Home({ searchParams }: SearchParamsProps) {
   });
 
   // fetch recommended
-  const loading = true;
-  if (loading) return <Loading />;
 
   return (
     <>
