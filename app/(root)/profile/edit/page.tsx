@@ -1,7 +1,6 @@
 import React from 'react';
 import { auth } from '@clerk/nextjs';
 import { getUserById } from '@/lib/actions/user.action';
-import { ParamsProps } from '@/types';
 import Profile from '@/components/forms/Profile';
 
 const EditProfilePage = async () => {

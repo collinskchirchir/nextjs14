@@ -86,7 +86,7 @@ const Answer = ({ question, questionId, authorId }: Props) => {
         }
       );
       const aiAnswer = await response.json();
-      console.log('AI ANSWER: ', aiAnswer);
+      console.log('AI ANSWER: ', aiAnswer, isSubmittingAI);
     } catch (error) {
       console.log(error);
     } finally {
