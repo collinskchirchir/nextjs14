@@ -9,7 +9,12 @@ import QuestionCard from '@/components/cards/QuestionCard';
 import { getQuestions } from '@/lib/actions/question.action';
 import { SearchParamsProps } from '@/types';
 import PaginationComponent from '@/components/Pagination';
-import Loading from './loading';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Home | DevExchange',
+  description: 'Dev Exchange is a community of developers. Join us',
+};
 
 export default async function Home({ searchParams }: SearchParamsProps) {
   const result = await getQuestions({

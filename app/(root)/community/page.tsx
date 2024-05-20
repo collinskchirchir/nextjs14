@@ -6,6 +6,12 @@ import Link from 'next/link';
 import UserCard from '@/components/cards/UserCard';
 import { SearchParamsProps } from '@/types';
 import PaginationComponent from '@/components/Pagination';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Community | DevExchange',
+  description: 'Dev Exchange is a community of developers. Join us',
+};
 
 const Page = async ({ searchParams }: SearchParamsProps) => {
   const result = await getAllUsers({
